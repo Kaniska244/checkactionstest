@@ -1,0 +1,26 @@
+name: test output workflow
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  outputtest:
+    runs-on: ubuntu-latest
+    steps:
+      - id: github-output
+        name: Execute DevContainer commands
+        uses: devcontainers/ci@v0.3.1900000349
+        with: 
+          runCmd: |
+            echo "foo=bar" >> $GITHUB_OUTPUT
+
+      - name: get output
+        run: |
+          set -e
+          echo "Test output.."
+          echo "${{ steps.github-output.outputs.foo }}"
+          echo "Value printed.."
+      
