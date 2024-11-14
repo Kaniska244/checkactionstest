@@ -22,5 +22,5 @@ jobs:
           set -e
           echo "Test output.."
           echo "${{ steps.github-output.outputs.foo }}"
-          echo "Value printed.."
+          echo "Value printed now.."
       
