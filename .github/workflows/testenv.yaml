@@ -18,6 +18,7 @@ jobs:
             echo "MY_ENV_VAR: $MY_ENV_VAR"
             echo "ANOTHER_VAR: $ANOTHER_VAR"
             env  # Lists all environment variables in the container
-          localenv: |
+          env: |
             MY_ENV_VAR=sample-value
             ANOTHER_VAR=42
+          inheritEnv: true
