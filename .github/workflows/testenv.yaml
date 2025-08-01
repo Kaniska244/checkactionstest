@@ -1,0 +1,20 @@
+name: Dev Container CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-run-devcontainer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and Run Dev Container
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: echo "Hello from inside the dev container!"
+          env: |
+            MY_ENV_VAR=sample-value
+            ANOTHER_VAR=42
