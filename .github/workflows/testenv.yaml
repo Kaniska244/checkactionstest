@@ -14,7 +14,10 @@ jobs:
       - name: Build and Run Dev Container
         uses: devcontainers/ci@v0.3
         with:
-          runCmd: echo "Hello from inside the dev container!"
+          runCmd: |
+            echo "MY_ENV_VAR: $MY_ENV_VAR"
+            echo "ANOTHER_VAR: $ANOTHER_VAR"
+            env  # Lists all environment variables in the container
           env: |
             MY_ENV_VAR=sample-value
             ANOTHER_VAR=42
