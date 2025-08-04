@@ -14,6 +14,7 @@ jobs:
       - name: Build and Run Dev Container
         uses: devcontainers/ci@v0.3
         with:
+          imageName: my-test-image
           runCmd: |
             echo "MY_ENV_VAR: $MY_ENV_VAR"
             echo "ANOTHER_VAR: $ANOTHER_VAR"
@@ -21,4 +22,11 @@ jobs:
           env: |
             MY_ENV_VAR=sample-value
             ANOTHER_VAR=42
-          inheritEnv: true
+            
+      - name: Run container in detached mode
+        run: |
+          docker run -d --name devcontainer-test -it my-test-image tail -f /dev/null
+          echo "Container 'devcontainer-test' is running."
+          docker exec -it devcontainer-test bash
+          whoami
+          env  # Lists all environment variables in the container 
