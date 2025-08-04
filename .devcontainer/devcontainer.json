@@ -1,4 +1,11 @@
 {
   "name": "Ubuntu",
-  "image": "mcr.microsoft.com/devcontainers/base:jammy"
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "API_URL": "https://api.example.com"
+  },
+  "remoteEnv": {
+    "FOO": "bar"
+  }  
 }
