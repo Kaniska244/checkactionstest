@@ -27,6 +27,4 @@ jobs:
         run: |
           docker run -d --name devcontainer-test -it my-test-image tail -f /dev/null
           echo "Container 'devcontainer-test' is running."
-          docker exec -i devcontainer-test bash
-          whoami
-          env  # Lists all environment variables in the container 
+          docker exec -i devcontainer-test bash -c "whoami && env" 
