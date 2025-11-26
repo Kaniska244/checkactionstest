@@ -1,9 +1,8 @@
 name: test output workflow
 
-on: 
-  push:
-    branches:
-      - main
+on:   
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
