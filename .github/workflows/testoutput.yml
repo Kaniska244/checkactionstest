@@ -9,6 +9,8 @@ jobs:
   outputtest:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4    
       - id: github-output
         name: Execute DevContainer commands
         uses: devcontainers/ci@v0.3.1900000349
