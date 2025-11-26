@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4    
+      - name: Get release tag
+        run: |
+          RELEASE_TAG="${{ github.event.release.tag_name }}"
+          echo "The release tag is: $RELEASE_TAG"        
       - id: github-output
         name: Execute DevContainer commands
         uses: devcontainers/ci@v0.3.1900000349
