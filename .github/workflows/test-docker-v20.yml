@@ -9,7 +9,7 @@ on:
 jobs:
   test-docker-v20:
     name: Docker v20.10 Compatibility
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v6
