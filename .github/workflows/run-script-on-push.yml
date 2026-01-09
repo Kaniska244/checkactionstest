@@ -144,11 +144,12 @@ jobs:
           # Print useful info for manual validation
           docker images
           df -h
+          docker system df -v
 
           # Calculate and display total unique image size on disk
           echo ""
           echo "==== Total Images Size on Disk ===="
-          TOTAL_IMAGE_SIZE=$(docker system df -v | grep "^Images" | awk '{print $4}')
+          TOTAL_IMAGE_SIZE=$(docker system df | grep "^Images" | awk '{print $4}')
           echo "Total images size: $TOTAL_IMAGE_SIZE"
 
           # Check if total size exceeds 22GB
