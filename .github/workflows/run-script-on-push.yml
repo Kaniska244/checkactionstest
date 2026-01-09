@@ -36,7 +36,7 @@ jobs:
 
           # For flexibility, allow a simple flag to toggle the docker registry between MCR and DEVCON.
           # MCR is a public mirror of DEVCON with a small propagation delay.
-          FLAG=${1:-"--devcon"}
+          FLAG=${1:-"--mcr"}
           if [ $FLAG == "--mcr" ]; then
               echo "Pulling images from MCR"
               PREFIX=$MCR_PREFIX
