@@ -36,6 +36,9 @@ jobs:
             echo "ERROR: Expected Docker v29.x but got $DOCKER_VERSION"
             exit 1
           fi 
+          sudo mkdir -p /etc/docker
+          echo '{"features":{"containerd-snapshotter":true}}' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker          
           docker info -f '{{ .DriverStatus }}'
       - name: Execute provided shell script
         run: |
