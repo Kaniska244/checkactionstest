@@ -23,6 +23,19 @@ jobs:
           fi
           docker --version
 
+      - name: Install Docker v29.1.2
+        run: |
+          sudo apt-get remove -y docker-ce docker-ce-cli containerd.io || true
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo VERSION=29.1.2 sh get-docker.sh
+          sudo systemctl restart docker
+          # Verify
+          docker version
+          DOCKER_VERSION=$(docker version --format '{{.Server.Version}}')
+          if [[ ! "$DOCKER_VERSION" =~ ^29\. ]]; then
+            echo "ERROR: Expected Docker v29.x but got $DOCKER_VERSION"
+            exit 1
+          fi 
       - name: Execute provided shell script
         run: |
           #!/bin/bash
