@@ -36,6 +36,7 @@ jobs:
             echo "ERROR: Expected Docker v29.x but got $DOCKER_VERSION"
             exit 1
           fi 
+          docker info -f '{{ .DriverStatus }}'
       - name: Execute provided shell script
         run: |
           #!/bin/bash
