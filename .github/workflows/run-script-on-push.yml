@@ -154,9 +154,9 @@ jobs:
           # pull_helper $DOTNET "${dotnet_variations[@]}"
 
           # CS50 Image
-          CS50_IMG="ghcr.io/cs50/codespace:latest"
-          echo "***  Executing docker pull for:  $CS50_IMG  ***"
-          docker pull $CS50_IMG
+          #CS50_IMG="ghcr.io/cs50/codespace:latest"
+          #echo "***  Executing docker pull for:  $CS50_IMG  ***"
+          #docker pull $CS50_IMG
 
           # Print useful info for manual validation
           docker images
