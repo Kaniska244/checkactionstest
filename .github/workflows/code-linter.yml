@@ -16,7 +16,7 @@ jobs:
       with:
         fetch-depth: 0    
     
-    - uses: github/super-linter/slim@v4
+    - uses: super-linter/super-linter/slim@v8
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VALIDATE_ALL_CODEBASE: true
