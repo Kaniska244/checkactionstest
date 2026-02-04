@@ -107,7 +107,6 @@
 				"ruby:${VERSION}-3.2-bullseye"
 			]
 		}
-	},
 	"dependencies": {
 		"image": "ruby:${VARIANT}",
 		"imageLink": "https://hub.docker.com/_/ruby",
