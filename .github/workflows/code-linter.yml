@@ -19,7 +19,6 @@ jobs:
     - uses: github/super-linter/slim@v4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LOG_LEVEL: DEBUG
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
         FILTER_REGEX_INCLUDE: .*src/.*
