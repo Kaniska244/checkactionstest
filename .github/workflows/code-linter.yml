@@ -22,6 +22,6 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|Dockerfile$)'
-        VALIDATE_DOCKERFILE: true
+        VALIDATE_DOCKERFILE_HADOLINT: true
         VALIDATE_JSON: true
         
