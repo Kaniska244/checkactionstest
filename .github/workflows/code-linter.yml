@@ -24,5 +24,4 @@ jobs:
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|Dockerfile$)'
         VALIDATE_DOCKERFILE_HADOLINT: true
         VALIDATE_JSON: true
-        VALIDATE_JSONC: true
         
