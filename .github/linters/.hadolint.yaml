@@ -2,6 +2,7 @@
 ##########################
 ## Hadolint config file ##
 ##########################
+failure-threshold: "error"
 ignored:
   - DL4001 # Ignore wget and curl in same file
   - DL4006 # ignore pipefail as we don't want to add layers
