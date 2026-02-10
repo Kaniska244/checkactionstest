@@ -1,17 +1,31 @@
 import { defineConfig } from "eslint/config";
-import jsoncParser from "jsonc-eslint-parser";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import globals from "globals";
+import jsoncParser from "jsonc-eslint-parser";
 
-const compat = new FlatCompat({
-  recommendedConfig: js.configs.recommended,
-});
+const compat = new FlatCompat();
 
 export default defineConfig([
-  compat.extends("eslint:recommended"),
+  js.configs.recommended,
+
+  {
+    files: ["**/*.js", "**/*.cjs"],
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "script",
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "no-undef": "error",
+    },
+  },
+
+  ...compat.extends("plugin:jsonc/recommended-with-jsonc"),
   {
     files: ["**/*.json"],
-    extends: compat.extends("plugin:jsonc/recommended-with-jsonc"),
     languageOptions: {
       parser: jsoncParser,
       parserOptions: { jsonSyntax: "JSONC" },
