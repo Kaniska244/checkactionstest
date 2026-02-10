@@ -21,6 +21,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
+        JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|build/.*\.js|Dockerfile)$'
         VALIDATE_DOCKERFILE_HADOLINT: true
         VALIDATE_JAVASCRIPT_ES: true
