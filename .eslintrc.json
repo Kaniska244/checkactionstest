@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-undef": "error"
+  },
+  "globals": {
+    "require": "readonly",
+    "module": "readonly",
+    "__dirname": "readonly",
+    "console": "readonly"
+  }
+}
