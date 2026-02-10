@@ -20,7 +20,7 @@ RUN groupadd -r conda --gid 900 \
 
 # Copy opt folder, set ownership and group permissions
 COPY --chown=:conda --chmod=775 --from=upstream /opt/conda /opt/conda
-RUN chmod=2775 /opt/conda
+RUN chmod =2775 /opt/conda
 
 USER root
 
