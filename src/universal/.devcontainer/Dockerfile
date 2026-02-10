@@ -38,7 +38,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         rsync \
         zip \
         libgdiplus \
-        jq \
+        jq 
         # By default pip is not available in the buildpacks image
         python3-pip \
         #.NET Core related pre-requisites
