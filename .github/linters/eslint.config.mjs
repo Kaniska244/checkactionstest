@@ -23,6 +23,13 @@ export default defineConfig([
     },
   },
 
+  {
+    files: ["build/src/prep.js"],
+    languageOptions: {
+      globals: { scriptLibraryPathInRepo: "readonly" },
+    },          
+  },
+
   ...compat.extends("plugin:jsonc/recommended-with-jsonc"),
   {
     files: ["**/*.json"],
