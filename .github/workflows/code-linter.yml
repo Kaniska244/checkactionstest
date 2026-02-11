@@ -21,10 +21,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
-        USE_DEFAULT_CONFIGS: false
-        LINTER_RULES_PATH: /github/workspace        
-        ESLINT_USE_FLAT_CONFIG: true
-        JAVASCRIPT_ES_CONFIG_FILE: .github/linters/eslint.config.mjs
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|build/.*\.js|Dockerfile)$'
         VALIDATE_DOCKERFILE_HADOLINT: true
         VALIDATE_JAVASCRIPT_ES: true
