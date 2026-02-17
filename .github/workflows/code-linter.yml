@@ -20,8 +20,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASH_SEVERITY: error
-        LINTER_RULES_PATH: /github/workspace
-        BASH_FILE_NAME: .github/linters/.shellcheckrc
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|build/.*\.js|Dockerfile)$'
