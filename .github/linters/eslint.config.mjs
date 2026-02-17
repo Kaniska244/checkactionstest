@@ -30,6 +30,20 @@ export default defineConfig([
     },          
   },
 
+  {
+    files: ["build/src/push.js"],
+    rules: {
+      "no-useless-escape": "off",
+    },
+  },
+
+  {
+    files: ["build/src/utils/async.js"],
+    rules: {
+      "no-redeclare": ["error", { builtinGlobals: false }],
+    },
+  },
+
   ...compat.extends("plugin:jsonc/recommended-with-jsonc"),
   {
     files: ["**/*.json"],
