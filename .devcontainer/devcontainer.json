@@ -15,10 +15,10 @@
 
 {
     "image": "mcr.microsoft.com/devcontainers/universal:latest",
-    "features": {
+    /*"features": {
         "ghcr.io/devcontainers/features/desktop-lite:1": {
             "password": "noPassword"
         }
     },
-    "forwardPorts": [5901, 6080]
+    "forwardPorts": [5901, 6080]*/
 }
