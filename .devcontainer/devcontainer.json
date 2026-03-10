@@ -15,6 +15,9 @@
 
 {
     "image": "mcr.microsoft.com/devcontainers/universal:latest",
+    "features": {
+      "ghcr.io/devcontainers/features/copilot-cli:1": {}
+    }
     /*"features": {
         "ghcr.io/devcontainers/features/desktop-lite:1": {
             "password": "noPassword"
