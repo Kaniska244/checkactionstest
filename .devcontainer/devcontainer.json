@@ -1,4 +1,4 @@
-{
+/*{
   "name": "Ubuntu",
   "image": "mcr.microsoft.com/devcontainers/base:noble",
   "features": {
@@ -11,4 +11,14 @@
   "remoteEnv": {
     "FOO": "bar"
   }  
+}*/
+
+{
+    "image": "mcr.microsoft.com/devcontainers/universal",
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {
+            "password": "noPassword"
+        }
+    },
+    "forwardPorts": [5901, 6080]
 }
