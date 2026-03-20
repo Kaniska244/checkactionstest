@@ -122,7 +122,7 @@ jobs:
 
           # Universal Images
           universal_variations=( latest 5 )
-          pull_helper $UNIVERSAL "${universal_variations[@]}"
+          #pull_helper $UNIVERSAL "${universal_variations[@]}"
 
           # Base Images
           base_variations=( latest debian bookworm trixie debian13 debian-13 debian12 debian-12 ubuntu ubuntu22.04 ubuntu-22.04 ubuntu24.04 ubuntu-24.04 )
@@ -154,9 +154,9 @@ jobs:
           # pull_helper $DOTNET "${dotnet_variations[@]}"
 
           # CS50 Image
-          #CS50_IMG="ghcr.io/cs50/codespace:latest"
-          #echo "***  Executing docker pull for:  $CS50_IMG  ***"
-          #docker pull $CS50_IMG
+          CS50_IMG="ghcr.io/cs50/codespace:latest"
+          echo "***  Executing docker pull for:  $CS50_IMG  ***"
+          docker pull $CS50_IMG
 
           # Print useful info for manual validation
           docker images
