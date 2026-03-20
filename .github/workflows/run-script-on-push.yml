@@ -167,6 +167,7 @@ jobs:
           CS50_IMG="ghcr.io/cs50/codespace:latest"
           echo "***  Executing docker pull for:  $CS50_IMG  ***"
           docker pull $CS50_IMG
+          docker-squash -t ghcr.io/cs50/codespace:squashed ghcr.io/cs50/codespace:latest
 
           # Print useful info for manual validation
           docker images
