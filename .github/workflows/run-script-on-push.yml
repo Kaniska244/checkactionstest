@@ -23,6 +23,11 @@ jobs:
           fi
           docker --version
 
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
       - name: Install Docker v29.1.3
         run: |
           sudo apt-get remove -y docker-ce docker-ce-cli containerd.io || true
@@ -40,6 +45,7 @@ jobs:
           echo '{"features":{"containerd-snapshotter":true}}' | sudo tee /etc/docker/daemon.json
           sudo systemctl restart docker          
           docker info -f '{{ .DriverStatus }}'
+          python --version
       - name: Execute provided shell script
         run: |
           #!/bin/bash
