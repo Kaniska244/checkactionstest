@@ -46,6 +46,10 @@ jobs:
           sudo systemctl restart docker          
           docker info -f '{{ .DriverStatus }}'
           python --version
+      - name: Install docker-squash
+        run: |
+          pip install docker-squash==1.2.2
+          docker-squash --version
       - name: Execute provided shell script
         run: |
           #!/bin/bash
