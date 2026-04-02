@@ -2,7 +2,7 @@ ARG VARIANT=debian13
 FROM mcr.microsoft.com/devcontainers/base:${VARIANT}
 USER root
 
-# Install needed packages. Use a separate RUN statement to add your own dependencies.
+# Install needed packages. Use a separate RUN statement to add your own dependencies. Do it
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb \
     # [Optional] Additional packages required for using vcpkg package manager in manifest mode.
