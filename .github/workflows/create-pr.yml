@@ -6,7 +6,34 @@ name: Create PR with GITHUB_TOKEN
 # do NOT trigger further workflow runs (see the "dummy-on-pr" workflow).
 
 on:
+  # Manual run: triggering_actor is a human -> downstream pull_request
+  # workflows DO run (this is what PR #2 demonstrated).
   workflow_dispatch:
+  # Bot-initiated run: this event is dispatched BY the GITHUB_TOKEN from the
+  # "Kick create-pr as bot" workflow. repository_dispatch is one of the
+  # documented exceptions that still runs even when fired by GITHUB_TOKEN,
+  # and its triggering_actor becomes github-actions[bot]. The PR opened here
+  # is therefore a bot -> bot chain, so downstream pull_request workflows
+  # (dummy-on-pr, code-linter) should be SUPPRESSED.
+  repository_dispatch:
+    types: [create-pr-bot]
+  # Scheduled run: fires daily at 06:08 UTC -> i.e. in the next few minutes
+  # today and again tomorrow at the same time (cron is recurring/daily).
+  # Notes:
+  #   * GitHub only runs schedules from the workflow file on the DEFAULT
+  #     branch, so this file must be committed to main to take effect.
+  #   * Scheduled starts can be delayed by several minutes under load, so
+  #     the "5 minute" firing is approximate.
+  #   * For a scheduled run, triggering_actor is the last user to modify the
+  #     workflow (a human), so downstream workflows will RUN.
+  schedule:
+    - cron: '8 6 * * *'
+  # Push run: fires when commits land on main. Scoped to main and ignores the
+  # test artifact so merged auto-PRs don't recursively re-trigger this workflow.
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'recursive-test.txt'
 
 permissions:
   contents: write
@@ -37,10 +64,16 @@ jobs:
       - name: Open pull request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euxo pipefail
+          if [ "${EVENT_NAME}" = "repository_dispatch" ]; then
+            EXPECT="triggering_actor is github-actions[bot] (bot -> bot), so downstream workflows should be SUPPRESSED."
+          else
+            EXPECT="triggering_actor is a human (workflow_dispatch), so downstream workflows should RUN."
+          fi
           gh pr create \
             --base main \
             --head "${BRANCH}" \
-            --title "Test recursive events (created via GITHUB_TOKEN)" \
-            --body "Automated PR opened with the built-in GITHUB_TOKEN. The 'dummy-on-pr' workflow should NOT run for this PR."
+            --title "Test recursive events via ${EVENT_NAME} (created with GITHUB_TOKEN)" \
+            --body "Automated PR opened with the built-in GITHUB_TOKEN from a '${EVENT_NAME}' run. ${EXPECT}"
