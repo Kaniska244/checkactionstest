@@ -17,7 +17,7 @@ on:
   # (dummy-on-pr, code-linter) should be SUPPRESSED.
   repository_dispatch:
     types: [create-pr-bot]
-  # Scheduled run: fires daily at 06:08 UTC -> i.e. in the next few minutes
+  # Scheduled run: fires daily at 06:15 UTC -> i.e. in the next few minutes
   # today and again tomorrow at the same time (cron is recurring/daily).
   # Notes:
   #   * GitHub only runs schedules from the workflow file on the DEFAULT
@@ -27,7 +27,7 @@ on:
   #   * For a scheduled run, triggering_actor is the last user to modify the
   #     workflow (a human), so downstream workflows will RUN.
   schedule:
-    - cron: '8 6 * * *'
+    - cron: '15 6 * * *'
   # Push run: fires when commits land on main. Scoped to main and ignores the
   # test artifact so merged auto-PRs don't recursively re-trigger this workflow.
   push:
