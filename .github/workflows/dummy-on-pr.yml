@@ -1,0 +1,21 @@
+name: Dummy on PR
+
+# Dummy workflow that should be triggered whenever a pull request is opened.
+# When the PR is created by the built-in GITHUB_TOKEN (see "create-pr"),
+# GitHub's recursion prevention means this workflow will NOT run.
+# It WILL run for PRs opened by a user or a PAT.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Announce trigger
+        run: |
+          echo "Dummy workflow triggered!"
+          echo "PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+          echo "Triggered by actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }} / ${{ github.event.action }}"

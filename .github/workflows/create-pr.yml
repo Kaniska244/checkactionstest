@@ -1,0 +1,46 @@
+name: Create PR with GITHUB_TOKEN
+
+# Creates a branch, makes a dummy change and opens a PR using the
+# built-in GITHUB_TOKEN. This is used to verify GitHub Actions'
+# recursion prevention: events raised by the default GITHUB_TOKEN
+# do NOT trigger further workflow runs (see the "dummy-on-pr" workflow).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create branch and dummy change
+        run: |
+          set -euxo pipefail
+          BRANCH="auto-pr/${GITHUB_RUN_ID}"
+          echo "BRANCH=${BRANCH}" >> "$GITHUB_ENV"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "${BRANCH}"
+          echo "Dummy change from run ${GITHUB_RUN_ID} at $(date -u)" > recursive-test.txt
+          git add recursive-test.txt
+          git commit -m "chore: dummy change to test recursive events"
+          git push --set-upstream origin "${BRANCH}"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+          gh pr create \
+            --base main \
+            --head "${BRANCH}" \
+            --title "Test recursive events (created via GITHUB_TOKEN)" \
+            --body "Automated PR opened with the built-in GITHUB_TOKEN. The 'dummy-on-pr' workflow should NOT run for this PR."
