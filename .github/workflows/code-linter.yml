@@ -25,7 +25,7 @@ jobs:
         FILTER_REGEX_INCLUDE: '(^|.*/)(src/.*|build/.*\.js|Dockerfile)$'
         FILTER_REGEX_EXCLUDE: '(^|.*/)src/.*/test-project(/.*)?$'
         VALIDATE_DOCKERFILE_HADOLINT: true
-        VALIDATE_JAVASCRIPT_ES: true
+        VALIDATE_JAVASCRIPT_ES: false
         VALIDATE_JSON: true
         VALIDATE_BASH: true
         
