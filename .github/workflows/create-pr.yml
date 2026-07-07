@@ -17,17 +17,19 @@ on:
   # (dummy-on-pr, code-linter) should be SUPPRESSED.
   repository_dispatch:
     types: [create-pr-bot]
-  # Scheduled run: fires daily at 06:15 UTC -> i.e. in the next few minutes
-  # today and again tomorrow at the same time (cron is recurring/daily).
+  # Scheduled run: fires daily at 06:31 UTC -> today (once committed with
+  # enough lead time) and again tomorrow at the same time (cron is daily).
   # Notes:
   #   * GitHub only runs schedules from the workflow file on the DEFAULT
   #     branch, so this file must be committed to main to take effect.
-  #   * Scheduled starts can be delayed by several minutes under load, so
-  #     the "5 minute" firing is approximate.
+  #   * The schedule must be registered on main WELL BEFORE the fire time;
+  #     a cron only a minute or two ahead will not fire.
+  #   * Scheduled starts are commonly delayed several minutes under load, and
+  #     round minutes (:00/:15/:30/:45) are the most congested.
   #   * For a scheduled run, triggering_actor is the last user to modify the
   #     workflow (a human), so downstream workflows will RUN.
   schedule:
-    - cron: '15 6 * * *'
+    - cron: '31 6 * * *'
   # Push run: fires when commits land on main. Scoped to main and ignores the
   # test artifact so merged auto-PRs don't recursively re-trigger this workflow.
   push:
