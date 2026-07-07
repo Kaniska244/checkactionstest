@@ -1,33 +1,38 @@
 name: Create PR with GITHUB_TOKEN
 
-# Creates a branch, makes a dummy change and opens a PR using the
-# built-in GITHUB_TOKEN. This is used to verify GitHub Actions'
-# recursion prevention: events raised by the default GITHUB_TOKEN
-# do NOT trigger further workflow runs (see the "dummy-on-pr" workflow).
+# Creates a branch, makes a dummy change and opens a PR using the built-in
+# GITHUB_TOKEN. Used to explore GitHub Actions' loop-prevention.
+#
+# VERIFIED MODEL (fits all observed runs): a run is SUPPRESSED iff
+#   triggering_actor == github-actions[bot]
+#   AND event NOT in {workflow_dispatch, repository_dispatch}.
+#
+# In practice the pull_request events created here are attributed to the repo
+# owner (a human), so downstream pull_request workflows have ALWAYS run,
+# regardless of how this workflow was triggered (PR #2/#5/#6). The genuine
+# suppression case is exercised by dummy-on-push.yml via the branch push made
+# during a repository_dispatch (bot-triggered) run.
 
 on:
-  # Manual run: triggering_actor is a human -> downstream pull_request
-  # workflows DO run (this is what PR #2 demonstrated).
+  # triggering_actor is a human -> downstream pull_request workflows RUN
+  # (this is what PR #2 demonstrated).
   workflow_dispatch:
-  # Bot-initiated run: this event is dispatched BY the GITHUB_TOKEN from the
-  # "Kick create-pr as bot" workflow. repository_dispatch is one of the
-  # documented exceptions that still runs even when fired by GITHUB_TOKEN,
-  # and its triggering_actor becomes github-actions[bot]. The PR opened here
-  # is therefore a bot -> bot chain, so downstream pull_request workflows
-  # (dummy-on-pr, code-linter) should be SUPPRESSED.
+  # Dispatched by the "Kick create-pr as bot" workflow. This run's
+  # triggering_actor IS github-actions[bot], but repository_dispatch is an
+  # exception, so the run itself executes. The PR it opens is still attributed
+  # to the human repo owner, so downstream pull_request workflows RUN too
+  # (this is what PR #6 demonstrated). The bot-attributed BRANCH PUSH from this
+  # run is the case that dummy-on-push.yml expects to see SUPPRESSED.
   repository_dispatch:
     types: [create-pr-bot]
-  # Scheduled run: fires daily at 06:31 UTC -> today (once committed with
-  # enough lead time) and again tomorrow at the same time (cron is daily).
-  # Notes:
+  # Scheduled run: fires daily at 06:31 UTC. triggering_actor is the last user
+  # to modify the workflow (a human), so downstream workflows RUN. Notes:
   #   * GitHub only runs schedules from the workflow file on the DEFAULT
   #     branch, so this file must be committed to main to take effect.
   #   * The schedule must be registered on main WELL BEFORE the fire time;
   #     a cron only a minute or two ahead will not fire.
   #   * Scheduled starts are commonly delayed several minutes under load, and
   #     round minutes (:00/:15/:30/:45) are the most congested.
-  #   * For a scheduled run, triggering_actor is the last user to modify the
-  #     workflow (a human), so downstream workflows will RUN.
   schedule:
     - cron: '31 6 * * *'
   # Push run: fires when commits land on main. Scoped to main and ignores the
@@ -70,9 +75,9 @@ jobs:
         run: |
           set -euxo pipefail
           if [ "${EVENT_NAME}" = "repository_dispatch" ]; then
-            EXPECT="triggering_actor is github-actions[bot] (bot -> bot), so downstream workflows should be SUPPRESSED."
+            EXPECT="This run's triggering_actor is github-actions[bot], but the pull_request event is attributed to the human repo owner, so downstream pull_request workflows still RUN. Watch dummy-on-push instead: the branch push from this bot-triggered run should be SUPPRESSED."
           else
-            EXPECT="triggering_actor is a human (workflow_dispatch), so downstream workflows should RUN."
+            EXPECT="triggering_actor is a human, so downstream pull_request workflows RUN."
           fi
           gh pr create \
             --base main \

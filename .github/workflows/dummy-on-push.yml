@@ -1,0 +1,36 @@
+name: Dummy on push
+
+# Decisive test for GITHUB_TOKEN loop-prevention.
+#
+# The "Create PR with GITHUB_TOKEN" workflow pushes a commit to an
+# auto-pr/<run-id> branch using the built-in GITHUB_TOKEN on every run. This
+# workflow watches those branches, so it is triggered (or suppressed) by that
+# push depending on the push event's triggering_actor:
+#
+#   * create-pr started via workflow_dispatch / push  -> triggering_actor is a
+#     human -> this push workflow SHOULD RUN.
+#   * create-pr started via repository_dispatch (the "Kick create-pr as bot"
+#     workflow) -> that run's triggering_actor is github-actions[bot], and
+#     `push` is NOT an exception event -> this push workflow SHOULD BE
+#     SUPPRESSED.
+#
+# Compare the outcomes to confirm the model:
+#   suppressed  <=>  triggering_actor == github-actions[bot]
+#                    AND event not in {workflow_dispatch, repository_dispatch}
+
+on:
+  push:
+    branches:
+      - 'auto-pr/**'
+
+jobs:
+  dummy-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Announce trigger
+        run: |
+          echo "Dummy-on-push triggered!"
+          echo "Ref:               ${{ github.ref }}"
+          echo "Event:             ${{ github.event_name }}"
+          echo "actor:             ${{ github.actor }}"
+          echo "triggering_actor:  ${{ github.triggering_actor }}"

@@ -4,13 +4,13 @@ name: Kick create-pr as bot
 # built-in GITHUB_TOKEN to send a repository_dispatch event, which triggers the
 # "Create PR with GITHUB_TOKEN" workflow. Because that dispatch is made by the
 # GITHUB_TOKEN, the resulting create-pr run has triggering_actor =
-# github-actions[bot]. When that bot-owned run opens a PR, the pull_request
-# event is a genuine bot -> bot chain and GitHub's loop-prevention SUPPRESSES
-# the downstream workflows (dummy-on-pr, code-linter).
+# github-actions[bot].
 #
-# Contrast with running "Create PR with GITHUB_TOKEN" directly via
-# workflow_dispatch: there the human is the triggering_actor, so the downstream
-# workflows DO run (see PR #2).
+# NOTE (corrected): this does NOT suppress the downstream pull_request
+# workflows. The PR that create-pr opens is attributed to the human repo owner,
+# so dummy-on-pr / code-linter still RUN (see PR #6). The part that IS a genuine
+# bot-attributed, non-exception event is the BRANCH PUSH performed by that
+# create-pr run -> that is what dummy-on-push.yml expects to see SUPPRESSED.
 
 on:
   workflow_dispatch:
